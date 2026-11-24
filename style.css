@@ -32,9 +32,9 @@ button{font:inherit;-webkit-tap-highlight-color:transparent}
 @media(hover:hover) and (pointer:fine){.round:hover{border-color:#ee6594;box-shadow:0 4px 18px #b47a8b12}.round:hover::after{opacity:1;transform:translateX(0)}body.custom-cursor #pet{cursor:none}body.custom-cursor #cursor.visible{display:block}}
 @media(max-width:700px){
  .photo-area{inset:0;display:block}
- .photo-frame{width:100%;height:100%;max-width:none;max-height:none;display:block;overflow:hidden}
+ .photo-frame{width:100%;height:100%;max-width:none;max-height:none;display:flex;align-items:center;justify-content:center;overflow:hidden}
  .photo-frame.empty{max-width:none;padding:20px;padding-top:max(20px,env(safe-area-inset-top));padding-bottom:max(20px,env(safe-area-inset-bottom))}
- #pet{width:100%;height:100%;max-height:none;max-width:none;object-fit:cover;border-radius:0}
+ #pet{width:auto;height:auto;max-height:100%;max-width:100%;object-fit:contain;border-radius:0}
  .tools{top:auto;right:max(20px,env(safe-area-inset-right));bottom:calc(22px + env(safe-area-inset-bottom));transform:none;display:flex;flex-direction:column;align-items:center;gap:14px}
  .round{width:54px;height:54px;padding:14px;background:rgba(255,253,251,.91);border:1px solid #ffffffb3;box-shadow:0 3px 16px #3d2d2d16;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
  .round.upload-button{margin-bottom:0}
