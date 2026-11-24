@@ -1,0 +1,17 @@
+{
+  "name": "petbirds-desktop",
+  "version": "1.0.0",
+  "description": "透明桌面小动物互动工具",
+  "author": "banirabbit",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "node build.cjs --prepare && electron .staging",
+    "test": "node --test test/*.test.cjs",
+    "package": "node build.cjs"
+  },
+  "devDependencies": {
+    "@electron/packager": "20.3.0",
+    "electron": "45.4.1"
+  }
+}

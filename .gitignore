@@ -2,3 +2,6 @@
 Thumbs.db
 Desktop.ini
 *.log
+desktop/node_modules/
+desktop/release/
+desktop/.staging/
