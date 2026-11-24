@@ -10,7 +10,6 @@
 .round:hover{border-color:#ee6594;background:#fff0f5}.round:active{transform:scale(.93)}
 .round[aria-pressed="true"]{background:#ffe2ed;border-color:#ee6594;color:#ee6594}
 .round:focus-visible{outline:3px solid #ee6594;outline-offset:2px}
-.round:disabled{opacity:.55;cursor:default}.stop{color:#d05b76}.stop:not(:disabled){background:#ffe2ed;border-color:#ee6594}
 .collapse{width:40px;height:40px;padding:10px}
 #notice{position:fixed;inset:30px 0 auto;background:#514c49f0;color:#fff;font-size:14px;line-height:1.5;padding:10px 7px;border-radius:12px;pointer-events:none;text-align:center;opacity:0;transition:opacity .2s}
 #notice.visible{opacity:1}

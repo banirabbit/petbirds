@@ -1,10 +1,10 @@
 'use strict';
 const {actions,svg}=PetbirdsEffects;
 const actionsNode=document.querySelector('#actions');
-const stop=document.querySelector('#stop');
 const collapse=document.querySelector('#collapse');
 const notice=document.querySelector('#notice');
 let timer;
+let currentMode=null;
 for(const action of actions) {
  const button=document.createElement('button');
  button.className='round';button.type='button';button.title=action.label;
@@ -13,7 +13,6 @@ for(const action of actions) {
  button.addEventListener('click',()=>window.desktop.select(action.id));
  actionsNode.append(button);
 }
-stop.innerHTML=svg('close');stop.addEventListener('click',()=>window.desktop.stop());
 function fit(){window.desktop.resize(document.querySelector('#toolbar').getBoundingClientRect().height+5);}
 function updateCollapse(){
  const closed=actionsNode.hidden;
@@ -23,11 +22,11 @@ function updateCollapse(){
  fit();
 }
 collapse.addEventListener('click',()=>{actionsNode.hidden=!actionsNode.hidden;updateCollapse();});
-document.addEventListener('contextmenu',event=>{event.preventDefault();window.desktop.menu();});
+document.addEventListener('contextmenu',event=>{event.preventDefault();if(currentMode)window.desktop.stop();else window.desktop.menu();});
 function render(state){
  if(!state)return;
+ currentMode=state.mode;
  actionsNode.querySelectorAll('button').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.mode===state.mode)));
- stop.disabled=!state.mode;
  if(state.message){notice.textContent=state.message;notice.classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>notice.classList.remove('visible'),2600);}
 }
 window.desktop.onState(render);window.desktop.state().then(render);

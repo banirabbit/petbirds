@@ -3,17 +3,17 @@
 上传喜欢的小动物照片，选择戳一戳、亲亲、啥子、摸摸或祝福，与照片互动。
 
 - [打开网页版](https://banirabbit.github.io/petbirds/)
-- [下载 Windows 桌面版](https://github.com/banirabbit/petbirds/releases/latest)
+- [下载 Windows 轻量版](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.0.1-preview.1)
 
 ## 轻量桌面版（系统 WebView2）
 
-[下载轻量版预览包](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.0.0-preview.1)。完整解压后运行 `PetbirdsLite.exe`。
+[下载轻量版预览包](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.0.1-preview.1)。完整解压后运行 `PetbirdsLite.exe`。
 
 `desktop-webview2/` 是 C# / WPF + 系统 WebView2 的轻量版本，不随应用分发 Chromium 或 Node.js。程序和托盘使用像素知更鸟图标。
 
 运行要求：Windows 10/11 x64、.NET Framework 4.8、Microsoft Edge WebView2 Evergreen Runtime。缺失 WebView2 时程序会提示；[微软官方下载](https://developer.microsoft.com/microsoft-edge/webview2/)。
 
-完整解压轻量版运行包后运行 `PetbirdsLite.exe`。先退出旧 Electron 版，再回到桌面选择动作。五种动作、结束按钮、拖动/折叠、托盘退出及切换应用结束互动均保留，壁纸保持静止。浏览器缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
+完整解压轻量版运行包后运行 `PetbirdsLite.exe`。先从托盘退出之前运行的版本，再启动新版并回到桌面选择动作。工具条只在桌面显示；切换到其他应用时隐藏，回到桌面时恢复。鼠标右键或 `Esc` 结束互动，工具条没有单独的结束按钮。五种动作、拖动/折叠和托盘退出均保留，壁纸保持静止。浏览器缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
 
 从源码构建需要 Windows 和 .NET SDK（已验证 9.0.305）：
 
@@ -52,9 +52,9 @@
 
 - 先回到 Windows 桌面，再点击悬浮工具条中的动作。桌面版不需要上传图片，直接在现有壁纸上显示特效。
 - 戳一戳、亲亲、啥子、摸摸和祝福均可使用，壁纸本身不会摇晃或缩放。
-- 点击 `×` 结束互动，立即清空特效并恢复正常桌面操作；也可以按 `Esc` 或点击鼠标右键结束。
+- 点击鼠标右键或按 `Esc` 结束互动，立即清空特效并恢复正常桌面操作。
 - 切换到其他应用时会自动结束互动。空闲时互动层隐藏，桌面图标可以正常点击。
-- 拖动工具条顶部的小横条可移动位置；底部按钮可折叠工具条，结束按钮始终保留。
+- 拖动工具条顶部的小横条可移动位置；底部按钮可折叠工具条。
 - 右键工具条或托盘图标，选择“退出 Petbirds”可彻底退出。程序不设置开机启动。
 
 从源码运行需要 Windows、Node.js 22.12 或更新版本及 npm：

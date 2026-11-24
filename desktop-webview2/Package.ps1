@@ -8,13 +8,14 @@ foreach($name in @('PetbirdsLite.exe','PetbirdsLite.exe.config','Microsoft.Web.W
 }
 Copy-Item -LiteralPath (Join-Path $build 'web') -Destination $OutputDirectory -Recurse -Force
 $instructions=@'
-Petbirds 轻量桌面版 v2.0.0（Windows x64）
+Petbirds 轻量桌面版 v2.0.1（Windows x64）
 
 1. 完整解压后运行 PetbirdsLite.exe。
-2. 先退出旧 Electron 版，再回到桌面，选择工具条中的动作。
+2. 先从托盘退出之前运行的版本，再回到桌面，选择工具条中的动作。
 3. 点击壁纸显示手势、爱心、白色“啥”或㊗️；壁纸本身保持静止。
-4. 点击 ×、按 Esc、鼠标右键或切换到其他应用，结束互动。
+4. 鼠标右键、按 Esc 或切换到其他应用，结束互动，无需单独的结束按钮。
 5. 拖动顶部横条移动工具条，底部按钮可折叠。右键工具条/托盘图标可退出。
+6. 工具条仅在桌面显示；切到其他应用时自动隐藏，回到桌面后重新出现。
 
 依赖：Windows 10/11 x64、.NET Framework 4.8、Microsoft Edge WebView2 Evergreen Runtime。
 运行包不包含浏览器内核。这些系统组件缺失时需要先安装。

@@ -38,7 +38,8 @@ namespace PetbirdsLite
             base.OnStartup(e);
             try
             {
-                singleton = new Mutex(true, @"Local\PetbirdsLite", out var first);
+                var mutexName = IsSmokeTest ? @"Local\PetbirdsLite.Smoke." + System.Diagnostics.Process.GetCurrentProcess().Id : @"Local\PetbirdsLite";
+                singleton = new Mutex(true, mutexName, out var first);
                 if (!first) { Shutdown(); return; }
                 await Start();
             }
@@ -53,7 +54,7 @@ namespace PetbirdsLite
         {
             var data = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PetbirdsLite", "WebView2");
             var environment = await CoreWebView2Environment.CreateAsync(null, data);
-            toolbar = new WebWindow("toolbar.html", "Petbirds 轻量版工具条", 88, 472);
+            toolbar = new WebWindow("toolbar.html", "Petbirds 轻量版工具条", 88, 403);
             overlay = new WebWindow("overlay.html", "Petbirds 轻量版互动层", 800, 600);
             // Create the native handles without showing a fullscreen input surface.
             new WindowInteropHelper(toolbar).EnsureHandle();
@@ -63,7 +64,7 @@ namespace PetbirdsLite
             overlay.Opacity = 0;
             toolbar.Show();
             overlay.Show();
-            controller = new StateController(ShowOverlay, HideOverlay, Broadcast);
+            controller = new StateController(ShowOverlay, HideOverlay, Broadcast, SetToolbarVisible);
             toolbar.Message += OnMessage;
             overlay.Message += OnMessage;
             toolbar.Failed += Fail;
@@ -71,18 +72,18 @@ namespace PetbirdsLite
             await Task.WhenAll(toolbar.Initialize(environment), overlay.Initialize(environment));
             overlay.Hide();
             overlay.Opacity = 1;
+            toolbar.Hide();
+            toolbar.Opacity = 1;
+            PlaceToolbar();
             controller.UpdateDesktop(Native.DesktopFocused(false));
             Broadcast(controller.Snapshot());
-            if (args.Length == 2 && args[0] == "--smoke-test")
+            if (IsSmokeTest)
             {
-                var result = new { success = true, runtime = environment.BrowserVersionString, toolbarLoaded = toolbar.PageReady && toolbar.ScriptsReady, overlayLoaded = overlay.PageReady && overlay.ScriptsReady, transparentBackground = toolbar.TransparentBackground && overlay.TransparentBackground, toolbar = Native.Inspect(toolbar), overlay = Native.Inspect(overlay) };
+                var result = new { success = true, runtime = environment.BrowserVersionString, toolbarLoaded = toolbar.PageReady && toolbar.ScriptsReady, overlayLoaded = overlay.PageReady && overlay.ScriptsReady, transparentBackground = toolbar.TransparentBackground && overlay.TransparentBackground, desktopFocused = controller.Desktop, toolbarVisible = toolbar.IsVisible, toolbar = Native.Inspect(toolbar), overlay = Native.Inspect(overlay) };
                 File.WriteAllText(args[1], new JavaScriptSerializer().Serialize(result));
                 Shutdown();
                 return;
             }
-            toolbar.Opacity = 1;
-            toolbar.Show();
-            PlaceToolbar();
             BuildTray();
             toolbar.Closing += (_, __) => { if (!closing) Shutdown(); };
             monitor = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(150) };
@@ -121,6 +122,23 @@ namespace PetbirdsLite
             overlay?.Send(payload);
         }
 
+        private bool IsSmokeTest => args.Length == 2 && args[0] == "--smoke-test";
+
+        private void SetToolbarVisible(bool visible)
+        {
+            if (closing || toolbar == null || toolbar.IsClosed) return;
+            if (!visible) { toolbar.Hide(); return; }
+            toolbar.Show();
+            Native.ShowWithoutActivating(toolbar);
+            Native.Raise(toolbar);
+        }
+
+        private void RefreshToolbar()
+        {
+            controller.UpdateDesktop(Native.DesktopFocused(controller.Desktop));
+            SetToolbarVisible(controller.Ready && controller.Desktop);
+        }
+
         private void OnMessage(WebWindow sender, Dictionary<string, object> message)
         {
             if (!message.TryGetValue("kind", out var kind)) return;
@@ -140,7 +158,7 @@ namespace PetbirdsLite
                 case "resize":
                     if (sender == toolbar && message.TryGetValue("height", out var value) && double.TryParse(Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var height) && !double.IsNaN(height) && !double.IsInfinity(height))
                     {
-                        toolbar.Height = Math.Max(120, Math.Min(height, 700));
+                        toolbar.Height = Math.Max(80, Math.Min(height, 700));
                         ClampToolbar();
                     }
                     break;
@@ -175,7 +193,7 @@ namespace PetbirdsLite
         private void BuildTray()
         {
             var menu = new Forms.ContextMenuStrip();
-            menu.Items.Add("显示工具条", null, (_, __) => { toolbar.Show(); Native.Raise(toolbar); });
+            menu.Items.Add("在桌面显示工具条", null, (_, __) => RefreshToolbar());
             menu.Items.Add("结束互动", null, (_, __) => controller.Stop());
             menu.Items.Add(new Forms.ToolStripSeparator());
             menu.Items.Add("退出 Petbirds", null, (_, __) => Shutdown());
@@ -186,14 +204,14 @@ namespace PetbirdsLite
                 ContextMenuStrip = menu,
                 Visible = true
             };
-            tray.MouseClick += (_, e) => { if (e.Button == Forms.MouseButtons.Left) { toolbar.Show(); Native.Raise(toolbar); } };
+            tray.MouseClick += (_, e) => { if (e.Button == Forms.MouseButtons.Left) RefreshToolbar(); };
         }
 
         private void Fail(Exception error)
         {
             if (closing) return;
             controller?.Unavailable();
-            if (args.Length == 2 && args[0] == "--smoke-test") File.WriteAllText(args[1], new JavaScriptSerializer().Serialize(new { success = false, error = error.ToString() }));
+            if (IsSmokeTest) File.WriteAllText(args[1], new JavaScriptSerializer().Serialize(new { success = false, error = error.ToString() }));
             else MessageBox.Show("Petbirds 无法继续运行：\n" + error.Message, "Petbirds 轻量版");
             Shutdown(1);
         }

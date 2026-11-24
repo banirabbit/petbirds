@@ -17,26 +17,29 @@ namespace PetbirdsLite
         private readonly Action show;
         private readonly Action hide;
         private readonly Action<InteractionState> broadcast;
+        private readonly Action<bool> setToolbarVisible;
         public string Mode { get; private set; }
         public bool Ready { get; private set; }
         public bool Desktop { get; private set; }
 
-        public StateController(Action show, Action hide, Action<InteractionState> broadcast)
+        public StateController(Action show, Action hide, Action<InteractionState> broadcast, Action<bool> setToolbarVisible)
         {
             this.show = show;
             this.hide = hide;
             this.broadcast = broadcast;
+            this.setToolbarVisible = setToolbarVisible;
         }
 
         public InteractionState Snapshot(string message = "") => new InteractionState { mode = Mode, ready = Ready, desktop = Desktop, message = message };
 
         public void UpdateDesktop(bool desktop)
         {
+            if (Ready && Desktop == desktop) return;
             Ready = true;
-            if (Desktop == desktop) return;
             Desktop = desktop;
             if (!desktop) Stop();
             else broadcast(Snapshot());
+            setToolbarVisible(desktop);
         }
 
         public void Start(string mode)
@@ -64,6 +67,7 @@ namespace PetbirdsLite
             Desktop = false;
             Mode = null;
             hide();
+            setToolbarVisible(false);
             broadcast(Snapshot("桌面连接中断，请退出并重新打开"));
         }
     }

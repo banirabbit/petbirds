@@ -37,7 +37,7 @@ namespace PetbirdsLite
             Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
             ShowInTaskbar = false;
             ShowActivated = false;
-            Topmost = true;
+            Topmost = false;
             Icon = BitmapFrame.Create(new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "robin.ico")));
             view = new WebView2CompositionControl { DefaultBackgroundColor = System.Drawing.Color.Transparent };
             Content = view;
