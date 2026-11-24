@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#faf7f4">
+  <meta name="description" content="上传喜欢的小动物照片，戳一戳、亲亲、抱抱、摸摸。">
+  <title>小动物互动</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="playground">
+    <div class="photo-area">
+      <div class="photo-frame empty" id="photo-frame">
+        <button id="empty-upload" class="empty-upload" aria-label="待上传，点击选择图片">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="17" height="16" rx="3"/><path d="m4 17 5-5 4 4 3-3 4 4M18 3v6m-3-3h6"/><circle cx="8" cy="9" r="1"/></svg>
+          <span>待上传</span>
+        </button>
+        <img id="pet" alt="上传的小动物照片，点击与它互动" draggable="false" tabindex="0" role="button" aria-label="亲亲小动物，按回车或空格互动" hidden>
+      </div>
+    </div>
+    <nav class="tools" aria-label="图片和互动工具">
+      <div class="tool-list" id="tool-list"></div>
+      <button class="round menu-toggle" id="menu-toggle" aria-label="展开互动工具" aria-expanded="false" aria-controls="tool-list"></button>
+    </nav>
+    <input type="file" id="upload" accept="image/*" hidden>
+    <div id="effects" aria-hidden="true"></div>
+    <div id="cursor" aria-hidden="true"></div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>
