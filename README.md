@@ -3,17 +3,19 @@
 上传喜欢的小动物照片，选择戳一戳、亲亲、啥子、摸摸或祝福，与照片互动。
 
 - [打开网页版](https://banirabbit.github.io/petbirds/)
-- [下载 Windows 轻量版](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.0.1-preview.1)
+- [下载 Windows 轻量版](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.1.0-preview.1)
 
 ## 轻量桌面版（系统 WebView2）
 
-[下载轻量版预览包](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.0.1-preview.1)。完整解压后运行 `PetbirdsLite.exe`。
+[下载轻量版预览包](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.1.0-preview.1)。完整解压后运行 `PetbirdsLite.exe`。
 
 `desktop-webview2/` 是 C# / WPF + 系统 WebView2 的轻量版本，不随应用分发 Chromium 或 Node.js。程序和托盘使用像素知更鸟图标。
 
 运行要求：Windows 10/11 x64、.NET Framework 4.8、Microsoft Edge WebView2 Evergreen Runtime。缺失 WebView2 时程序会提示；[微软官方下载](https://developer.microsoft.com/microsoft-edge/webview2/)。
 
-完整解压轻量版运行包后运行 `PetbirdsLite.exe`。先从托盘退出之前运行的版本，再启动新版并回到桌面选择动作。工具条只在桌面显示；切换到其他应用时隐藏，回到桌面时恢复。鼠标右键或 `Esc` 结束互动，工具条没有单独的结束按钮。五种动作、拖动/折叠和托盘退出均保留，壁纸保持静止。浏览器缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
+完整解压轻量版运行包后运行 `PetbirdsLite.exe`。先从托盘退出之前运行的版本，再启动新版。工具条与特效窗口作为 Windows 桌面图标宿主的子窗口运行，应用窗口自然盖在它们上方；露出的桌面仍可互动。不根据前台应用反复隐藏/显示工具条，也不全局置顶。鼠标右键或 `Esc` 结束互动，工具条没有独立结束按钮。五种动作、拖动/折叠和托盘退出均保留，壁纸保持静止。浏览器缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
+
+窗口挂到承载 `SHELLDLL_DefView` 的桌面宿主（Progman/WorkerW），只调整同一桌面宿主内部的子窗口顺序。多显示器定位将屏幕坐标转换为桌面宿主坐标。Windows Explorer 重启或桌面宿主被重建后，需要重新打开程序。
 
 从源码构建需要 Windows 和 .NET SDK（已验证 9.0.305）：
 

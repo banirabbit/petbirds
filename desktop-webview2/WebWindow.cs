@@ -91,5 +91,31 @@ namespace PetbirdsLite
         {
             if (!IsClosed && Core != null) Core.PostWebMessageAsJson(json.Serialize(message));
         }
+
+        public async Task<RenderEvidence> CaptureDiagnostic(string prefix)
+        {
+            using (var stream = File.Create(prefix + ".web.png"))
+                await Core.CapturePreviewAsync(CoreWebView2CapturePreviewImageFormat.Png, stream);
+            UpdateLayout();
+            var width = Math.Max(1, (int)Math.Ceiling(view.ActualWidth));
+            var height = Math.Max(1, (int)Math.Ceiling(view.ActualHeight));
+            var bitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(view);
+            var pixels = new byte[width * height * 4];
+            bitmap.CopyPixels(pixels, width * 4, 0);
+            var visiblePixels = 0;
+            for (var i = 3; i < pixels.Length; i += 4) if (pixels[i] > 32) visiblePixels++;
+            var encoder = new PngBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            using (var stream = File.Create(prefix + ".wpf.png")) encoder.Save(stream);
+            return new RenderEvidence { width = width, height = height, visiblePixels = visiblePixels };
+        }
+    }
+
+    internal sealed class RenderEvidence
+    {
+        public int width { get; set; }
+        public int height { get; set; }
+        public int visiblePixels { get; set; }
     }
 }
