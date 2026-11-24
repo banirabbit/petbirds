@@ -4,7 +4,7 @@
     upload:'<rect x="3" y="5" width="17" height="16" rx="3"/><path d="m4 17 5-5 4 4 3-3 4 4M18 3v6m-3-3h6"/><circle cx="8" cy="9" r="1"/>',
     poke:'<path d="M8 13V4.5c0-2.7 3.8-2.7 3.8 0v5c0-2.1 3-2.1 3 0v1c0-1.9 2.8-1.9 2.8 0v1c0-1.7 2.8-1.7 2.8 0v3.7c0 2.7-1.4 4.7-3.2 6H9c-1.2-2-2.3-3.6-3.6-5l-1.5-1.6c-1.8-1.9.5-4.1 2.3-2.5L8 14" fill="#fffaf6" stroke-width="1.6"/><path d="M11.8 9.5v3m3-2v2.2m2.8-1.2v1.7" stroke-width="1.3"/><ellipse cx="14.6" cy="16.7" rx="2.7" ry="1.8" fill="#f7c8d7" stroke="none"/><path d="M9 21.2h8.2" stroke="#ed9eb9" stroke-width="2.4"/>',
     kiss:'<path d="M2 12c4-2 5-8 10-4 5-4 6 2 10 4-4 3-6 7-10 7S5 15 2 12Z"/><path d="M2 12c4 0 6 2 10 1 4 1 6-1 10-1"/>',
-    hug:'<path d="M3 10c-3 6 1 11 9 11s12-5 9-11M3 10l5 5m13-5-5 5M3 17c2-1 5-1 9 2 4-3 7-3 9-2"/><path d="M12 12 7 7C3 2 10 0 12 4c2-4 9-2 5 3Z" fill="currentColor" stroke="none"/>',
+    shazi:'<text x="12" y="12" text-anchor="middle" dominant-baseline="central" font-family="system-ui,Microsoft YaHei,sans-serif" font-size="20" font-weight="800" fill="currentColor" stroke="none">啥</text>',
     bless:'<text x="12" y="12" text-anchor="middle" dominant-baseline="central" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif" font-size="21" fill="currentColor" stroke="none">㊗️</text>',
     pet:'<path d="m5 20 1-7c0-2 2-2 2 0l1-5c0-2 3-2 3 0l-1 5 2-7c1-2 3-1 2 1l-1 7 2-5c1-2 3-1 2 1l-1 5c3-2 5 0 3 2l-4 4Z" fill="#ffffff" stroke="#66544c"/><path d="M3 5 1 3m7 0V1m12 3 2-2"/>',
     heart:'<path d="M12 21 3 12C-4 4 7-3 12 5c5-8 16-1 9 7Z" fill="currentColor" stroke="none"/>',
@@ -13,7 +13,7 @@
     close:'<path d="m6 6 12 12M6 18 18 6"/>'
   };
   const svg = name => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]}</svg>`;
-  const actions = [{id:'poke',label:'戳一戳'},{id:'kiss',label:'亲亲'},{id:'hug',label:'抱抱'},{id:'pet',label:'摸摸'},{id:'bless',label:'祝福'}];
+  const actions = [{id:'poke',label:'戳一戳'},{id:'kiss',label:'亲亲'},{id:'shazi',label:'啥子'},{id:'pet',label:'摸摸'},{id:'bless',label:'祝福'}];
   const pet = document.querySelector('#pet');
   const frame = document.querySelector('#photo-frame');
   const tools = document.querySelector('.tools');
@@ -104,14 +104,9 @@
       particle('poke',x,y,{size:45,dx:32,dy:5,rotate:15,duration:500});
       particle('heart',x-12,y-15,{size:17,dx:-18,dy:-65,color:'#eaa179'});
       if (!stroke) movePhoto([{transform:'rotate(0)'},{transform:'rotate(-.6deg)',offset:.3},{transform:'rotate(.6deg)',offset:.7},{transform:'rotate(0)'}],650);
-    } else if (mode === 'hug') {
+    } else if (mode === 'bless' || mode === 'shazi') {
       const rect = pet.getBoundingClientRect();
-      particle('hug',rect.left+rect.width/2,rect.top+rect.height*.55,{size:Math.min(rect.width*.58,260),dy:0,duration:1000,color:'#e99caa'});
-      [-1,1].forEach(side => particle('heart',x+side*35,y-25,{size:23,dx:side*45,dy:-85,rotate:side*20}));
-      movePhoto([{transform:'scale(1)'},{transform:'scale(.975)',offset:.4},{transform:'scale(1)'}],650);
-    } else if (mode === 'bless') {
-      const rect = pet.getBoundingClientRect();
-      particle('bless',rect.left+rect.width/2,rect.top+rect.height/2,{size:Math.min(rect.width*.75,rect.height*.7,360),dy:0,duration:1400,color:'#ee6594'});
+      particle(mode,rect.left+rect.width/2,rect.top+rect.height/2,{size:Math.min(rect.width*.75,rect.height*.7,360),dy:0,duration:1400,color:mode==='shazi'?'#ffffff':'#ee6594'});
       movePhoto([{transform:'scale(1)'},{transform:'scale(1.015)',offset:.4},{transform:'scale(1)'}],550);
     } else {
       particle('pet',x,y,{size:43,dx:12,dy:-12,rotate:-15,duration:450,color:'#c79670'});
