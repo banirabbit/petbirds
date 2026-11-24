@@ -5,3 +5,9 @@ Desktop.ini
 desktop/node_modules/
 desktop/release/
 desktop/.staging/
+desktop-webview2/bin/
+desktop-webview2/obj/
+desktop-webview2/web/
+desktop-webview2/tests/bin/
+desktop-webview2/tests/obj/
+desktop-webview2/release/

@@ -31,4 +31,6 @@ function render(state){
  if(state.message){notice.textContent=state.message;notice.classList.add('visible');clearTimeout(timer);timer=setTimeout(()=>notice.classList.remove('visible'),2600);}
 }
 window.desktop.onState(render);window.desktop.state().then(render);
+if(window.desktop.drag) document.querySelector('.grip').addEventListener('pointerdown',event=>{if(event.button===0)window.desktop.drag();});
 updateCollapse();
+if(window.desktop.ready)window.desktop.ready();

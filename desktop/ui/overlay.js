@@ -21,3 +21,4 @@ document.addEventListener('pointermove',event=>{
 });
 ['pointerup','pointercancel','pointerleave'].forEach(name=>document.addEventListener(name,()=>{down=false;if(name==='pointerleave')cursor.classList.remove('visible');}));
 document.addEventListener('contextmenu',event=>{event.preventDefault();window.desktop.stop();});
+if(window.desktop.ready)window.desktop.ready();
