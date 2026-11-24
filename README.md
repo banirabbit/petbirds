@@ -3,19 +3,25 @@
 上传喜欢的小动物照片，选择戳一戳、亲亲、啥子、摸摸或祝福，与照片互动。
 
 - [打开网页版](https://banirabbit.github.io/petbirds/)
-- [下载 Windows 轻量版](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.1.0-preview.1)
+- [下载 Windows 轻量版](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.2.0-preview.1)
 
 ## 轻量桌面版（系统 WebView2）
 
-[下载轻量版预览包](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.1.0-preview.1)。完整解压后运行 `PetbirdsLite.exe`。
+[下载轻量版预览包](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.2.0-preview.1)。完整解压后运行 `PetbirdsLite.exe`。
 
 `desktop-webview2/` 是 C# / WPF + 系统 WebView2 的轻量版本，不随应用分发 Chromium 或 Node.js。程序和托盘使用像素知更鸟图标。
 
 运行要求：Windows 10/11 x64、.NET Framework 4.8、Microsoft Edge WebView2 Evergreen Runtime。缺失 WebView2 时程序会提示；[微软官方下载](https://developer.microsoft.com/microsoft-edge/webview2/)。
 
-完整解压轻量版运行包后运行 `PetbirdsLite.exe`。先从托盘退出之前运行的版本，再启动新版。工具条与特效窗口作为 Windows 桌面图标宿主的子窗口运行，应用窗口自然盖在它们上方；露出的桌面仍可互动。不根据前台应用反复隐藏/显示工具条，也不全局置顶。鼠标右键或 `Esc` 结束互动，工具条没有独立结束按钮。五种动作、拖动/折叠和托盘退出均保留，壁纸保持静止。浏览器缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
+完整解压轻量版运行包后运行 `PetbirdsLite.exe`。先从托盘退出旧版，再启动新版。
 
-窗口挂到承载 `SHELLDLL_DefView` 的桌面宿主（Progman/WorkerW），只调整同一桌面宿主内部的子窗口顺序。多显示器定位将屏幕坐标转换为桌面宿主坐标。Windows Explorer 重启或桌面宿主被重建后，需要重新打开程序。
+- 平时只显示一个透明置顶的像素知更鸟，按住拖动可以移动位置。
+- 左键点击知更鸟展开或收起五个圆形动作按钮；选择动作后菜单自动收起。
+- 回到桌面后选择动作，再点击壁纸互动；壁纸保持静止。
+- 互动期间覆盖所在屏幕的工作区以接收点击，鼠标右键或 `Esc` 结束互动并撤掉覆盖层。
+- 右键知更鸟选择“隐藏”或“退出程序”。隐藏会同时结束互动，点击托盘小鸟可以重新显示。
+
+知更鸟与动作菜单使用原生 WPF 绘制，WebView2 只承载特效。不再挂载 Progman/WorkerW，也不根据前台应用反复隐藏/显示；知更鸟会悬浮在其他普通应用窗口上方。浏览器缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
 
 从源码构建需要 Windows 和 .NET SDK（已验证 9.0.305）：
 
@@ -24,7 +30,7 @@
 ./desktop-webview2/Package.ps1
 ```
 
-运行文件生成于 `desktop-webview2/release/PetbirdsLite-win-x64/`。构建脚本从 `desktop/ui/` 与 `shared/` 组装前端资源；客户端不需要 Node.js 或 PowerShell 后台进程。`assets/robin-source.png` 是确认的原始图标，`Build-Icons.ps1` 只进行尺寸转换并生成多尺寸 ICO。
+运行文件生成于 `desktop-webview2/release/PetbirdsLite-win-x64/`。构建脚本从 `desktop/ui/overlay.*` 与 `shared/` 组装特效资源；客户端不需要 Node.js 或 PowerShell 后台进程。`assets/robin-source.png` 是确认的原始图标，`Build-Icons.ps1` 只进行尺寸转换并生成多尺寸 ICO。
 
 ## 使用
 

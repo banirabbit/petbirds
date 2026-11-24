@@ -8,7 +8,7 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>PetbirdsLite</AssemblyName>
     <RootNamespace>PetbirdsLite</RootNamespace>
-    <Version>2.1.0</Version>
+    <Version>2.2.0</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationIcon>../assets/robin.ico</ApplicationIcon>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
@@ -19,7 +19,9 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4370.26" />
     <Reference Include="System.Web.Extensions" />
     <Compile Remove="tests/**/*.cs" />
+    <Compile Include="tests/SmokeTest.cs" />
     <Content Include="web/**/*" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../assets/robin.ico" Link="robin.ico" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../assets/robin.png" Link="robin.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

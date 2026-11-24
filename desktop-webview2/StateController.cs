@@ -1,8 +1,17 @@
 using System;
-using System.Collections.Generic;
 
 namespace PetbirdsLite
 {
+    internal sealed class InteractionAction
+    {
+        public string Id { get; }
+        public string Label { get; }
+        private InteractionAction(string id, string label) { Id = id; Label = label; }
+        public static readonly InteractionAction[] All = {
+            new InteractionAction("poke", "戳一戳"), new InteractionAction("kiss", "亲亲"),
+            new InteractionAction("shazi", "啥子"), new InteractionAction("pet", "摸摸"), new InteractionAction("bless", "祝福")
+        };
+    }
     internal sealed class InteractionState
     {
         public string mode { get; set; }
@@ -12,7 +21,6 @@ namespace PetbirdsLite
 
     internal sealed class StateController
     {
-        private static readonly HashSet<string> Modes = new HashSet<string> { "poke", "kiss", "shazi", "pet", "bless" };
         private readonly Action show;
         private readonly Action hide;
         private readonly Action<InteractionState> broadcast;
@@ -30,8 +38,8 @@ namespace PetbirdsLite
         public void Initialize() { Ready = true; broadcast(Snapshot()); }
         public void Start(string mode)
         {
-            if (mode == null || !Modes.Contains(mode)) return;
-            if (!Ready) { broadcast(Snapshot("正在连接桌面，请稍候")); return; }
+            if (!Array.Exists(InteractionAction.All, action => action.Id == mode)) return;
+            if (!Ready) { broadcast(Snapshot("互动效果正在准备，请稍候")); return; }
             try { show(); Mode = mode; broadcast(Snapshot()); }
             catch { Mode = null; hide(); throw; }
         }
@@ -41,7 +49,7 @@ namespace PetbirdsLite
             Ready = false;
             Mode = null;
             hide();
-            broadcast(Snapshot("桌面连接中断，请退出并重新打开"));
+            broadcast(Snapshot("互动效果已中断，请退出并重新打开"));
         }
     }
 }
