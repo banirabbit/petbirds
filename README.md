@@ -1,76 +1,80 @@
-# Petbirds
+# Petbirds Lite
 
-上传喜欢的小动物照片，选择戳一戳、亲亲、啥子、摸摸或祝福，与照片互动。
+<img src="assets/robin.png" alt="像素知更鸟" width="96" />
 
-- [打开网页版](https://banirabbit.github.io/petbirds/)
-- [下载 Windows 轻量版](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.2.0-preview.1)
+一只可以陪你摸摸桌面壁纸的像素知更鸟。点击小鸟展开动作菜单，选择戳一戳、亲亲、啥子、摸摸或祝福，在壁纸上留下手势、爱心和特效。
 
-## 轻量桌面版（系统 WebView2）
+[下载 Windows Lite](https://github.com/banirabbit/petbirds/releases/download/desktop-webview2-v2.2.0-preview.1/PetbirdsLite-v2.2.0-win-x64.zip) · [查看发布说明](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.2.0-preview.1) · [打开网页版](https://banirabbit.github.io/petbirds/)
 
-[下载轻量版预览包](https://github.com/banirabbit/petbirds/releases/tag/desktop-webview2-v2.2.0-preview.1)。完整解压后运行 `PetbirdsLite.exe`。
+当前桌面版本：**Lite v2.2.0 Preview 1**。使用 C# / WPF 和系统 WebView2，运行包约 490 KB，不包含浏览器内核。
 
-`desktop-webview2/` 是 C# / WPF + 系统 WebView2 的轻量版本，不随应用分发 Chromium 或 Node.js。程序和托盘使用像素知更鸟图标。
+## 视频演示
 
-运行要求：Windows 10/11 x64、.NET Framework 4.8、Microsoft Edge WebView2 Evergreen Runtime。缺失 WebView2 时程序会提示；[微软官方下载](https://developer.microsoft.com/microsoft-edge/webview2/)。
+### 演示一
 
-完整解压轻量版运行包后运行 `PetbirdsLite.exe`。先从托盘退出旧版，再启动新版。
+https://github.com/user-attachments/assets/164640a1-b268-4d2f-be51-0e1654083840
 
-- 平时只显示一个透明置顶的像素知更鸟，按住拖动可以移动位置。
-- 左键点击知更鸟展开或收起五个圆形动作按钮；选择动作后菜单自动收起。
-- 回到桌面后选择动作，再点击壁纸互动；壁纸保持静止。
-- 互动期间覆盖所在屏幕的工作区以接收点击，鼠标右键或 `Esc` 结束互动并撤掉覆盖层。
-- 右键知更鸟选择“隐藏”或“退出程序”。隐藏会同时结束互动，点击托盘小鸟可以重新显示。
+### 演示二
 
-知更鸟与动作菜单使用原生 WPF 绘制，WebView2 只承载特效。不再挂载 Progman/WorkerW，也不根据前台应用反复隐藏/显示；知更鸟会悬浮在其他普通应用窗口上方。浏览器缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
+https://github.com/user-attachments/assets/32eab5b9-981b-4297-801e-f776fba6707a
 
-从源码构建需要 Windows 和 .NET SDK（已验证 9.0.305）：
+### 演示三
+
+https://github.com/user-attachments/assets/071a91c9-9a92-4690-823e-e35fb76e61aa
+
+## 使用 Lite
+
+1. 下载并完整解压运行包，运行 `PetbirdsLite.exe`。更新时先从系统托盘退出正在运行的版本。
+2. 平时只显示一个透明置顶的知更鸟，按住拖动可以移动位置。
+3. 左键点击知更鸟展开或收起五个圆形动作按钮，选择动作后菜单自动收起。
+4. 回到桌面，选择动作后点击壁纸互动；壁纸本身不会摇晃或缩放。
+5. 鼠标右键或按 `Esc` 结束互动，立即撤掉互动覆盖层。
+6. 右键知更鸟选择“隐藏”或“退出程序”。隐藏会同时结束互动，点击系统托盘的小鸟图标可以重新显示。
+
+知更鸟会悬浮在其他普通应用窗口上方。空闲时只占小图标区域；选择动作后，互动层会覆盖小鸟所在屏幕的工作区以接收点击，结束互动后恢复正常操作。
+
+### 五个动作
+
+| 动作 | 效果 |
+| --- | --- |
+| 戳一戳 | 点击出现戳戳手势和小爱心 |
+| 亲亲 | 点击冒出爱心 |
+| 啥子 | 在屏幕中央显示巨大的白色“啥” |
+| 摸摸 | 白色手掌与闪光，按住移动可以连续摸摸 |
+| 祝福 | 在屏幕中央显示巨大的㊗️ |
+
+### 运行要求
+
+- Windows 10 / 11 x64。
+- [.NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)。
+- [Microsoft Edge WebView2 Evergreen Runtime](https://developer.microsoft.com/microsoft-edge/webview2/)。
+
+知更鸟和动作菜单由原生 WPF 绘制，WebView2 只承载互动特效。客户端不需要 Node.js，也不需要后台 PowerShell 进程。程序不设置开机启动，不读取或修改壁纸文件，不上传图片。WebView2 缓存位于 `%LOCALAPPDATA%\PetbirdsLite\WebView2`。
+
+## 网页版
+
+[直接打开网页版](https://banirabbit.github.io/petbirds/)，或下载仓库后用浏览器打开 `index.html`，无需启动服务。
+
+网页初始显示“待上传”，选择小动物照片后即可互动。电脑端使用右侧圆形按钮，手机端点击右下角悬浮按钮展开工具；手机图片会等比例完整显示。图片只在当前浏览器中读取，刷新后需要重新选择。
+
+## 从源码构建 Lite
+
+需要 Windows 和 .NET SDK（已验证 9.0.305）。
 
 ```powershell
 ./desktop-webview2/Build.ps1 -Test
 ./desktop-webview2/Package.ps1
 ```
 
-运行文件生成于 `desktop-webview2/release/PetbirdsLite-win-x64/`。构建脚本从 `desktop/ui/overlay.*` 与 `shared/` 组装特效资源；客户端不需要 Node.js 或 PowerShell 后台进程。`assets/robin-source.png` 是确认的原始图标，`Build-Icons.ps1` 只进行尺寸转换并生成多尺寸 ICO。
+运行包生成于 `desktop-webview2/release/PetbirdsLite-win-x64/`。
 
-## 使用
+| 目录或文件 | 内容 |
+| --- | --- |
+| `desktop-webview2/` | Lite 原生知更鸟、动作菜单、WebView2 宿主和构建脚本 |
+| `desktop-webview2/ui/` | Lite 互动覆盖层页面 |
+| `desktop-webview2/tests/` | 状态、桥接与运行包自检 |
+| `shared/effects.js` | 网页版与 Lite 共用的图标和互动特效 |
+| `assets/` | 像素知更鸟图标与原始素材 |
+| `index.html`、`style.css`、`app.js` | 网页版页面、样式与交互 |
 
-下载仓库后，直接用浏览器打开 `index.html`，无需安装依赖或启动服务。
-
-- 初始显示“待上传”，点击中央区域或图片按钮选择图片。
-- 电脑端使用右侧圆形按钮切换动作，鼠标进入图片后显示对应光标。
-- 手机端图片等比例完整显示并居中适应屏幕，点击右下角悬浮按钮展开或收起工具。
-- 亲亲会冒爱心；戳一戳和摸摸各有互动动画。
-- 选择“啥子”后，点击图片会在正中央弹出一个巨大的白色“啥”。
-- 选择㊗️祝福后，点击图片会在正中央弹出一个巨大的㊗️。
-- 图片只在当前浏览器页面中读取，不会上传到服务器；刷新页面后需重新选择。
-
-## 文件
-
-- `index.html`：页面入口。
-- `style.css`：桌面和移动端样式。
-- `app.js`：图片读取、工具菜单、光标和互动动画。
-- `shared/effects.js`：网页与桌面版共用的图标和特效。
-- `desktop/`：Windows 桌面版源码、构建配置与测试。
-
-使用原生 HTML、CSS 和 JavaScript，无第三方依赖。
-
-## Electron 桌面版（旧版）
-
-桌面版使用 Electron。解压便携版压缩包后，运行 `PetbirdsDesktop.exe`，保留同目录的全部文件。
-
-- 先回到 Windows 桌面，再点击悬浮工具条中的动作。桌面版不需要上传图片，直接在现有壁纸上显示特效。
-- 戳一戳、亲亲、啥子、摸摸和祝福均可使用，壁纸本身不会摇晃或缩放。
-- 点击鼠标右键或按 `Esc` 结束互动，立即清空特效并恢复正常桌面操作。
-- 切换到其他应用时会自动结束互动。空闲时互动层隐藏，桌面图标可以正常点击。
-- 拖动工具条顶部的小横条可移动位置；底部按钮可折叠工具条。
-- 右键工具条或托盘图标，选择“退出 Petbirds”可彻底退出。程序不设置开机启动。
-
-从源码运行需要 Windows、Node.js 22.12 或更新版本及 npm：
-
-```powershell
-cd desktop
-npm ci
-npm start
-```
-
-执行 `npm test` 验证互动状态，执行 `npm run package` 生成 `desktop/release/PetbirdsDesktop-win32-x64` 便携程序目录。首次启动或打包需要下载 Electron 官方运行时。`shared/effects.js` 由网页与桌面版共用。
+`Build-Icons.ps1` 从 `assets/robin-source.png` 生成 PNG 和多尺寸 ICO。`Prepare-Web.ps1` 从 Lite 的 `ui/` 与 `shared/` 组装运行资源。

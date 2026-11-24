@@ -2,9 +2,6 @@
 Thumbs.db
 Desktop.ini
 *.log
-desktop/node_modules/
-desktop/release/
-desktop/.staging/
 desktop-webview2/bin/
 desktop-webview2/obj/
 desktop-webview2/web/

@@ -7,7 +7,7 @@ if(Test-Path -LiteralPath $webRoot){Remove-Item -LiteralPath $webRoot -Recurse -
 New-Item -ItemType Directory -Force -Path (Join-Path $webRoot 'ui'),(Join-Path $webRoot 'shared') | Out-Null
 Copy-Item -LiteralPath (Join-Path $repositoryRoot 'shared/effects.js') -Destination (Join-Path $webRoot 'shared/effects.js')
 foreach($name in @('overlay.html','overlay.css','overlay.js')) {
-    $source=Get-Item -LiteralPath (Join-Path $repositoryRoot ('desktop/ui/'+$name))
+    $source=Get-Item -LiteralPath (Join-Path $projectRoot ('ui/'+$name))
     $destination=Join-Path $webRoot ('ui/'+$source.Name)
     if($source.Extension -eq '.html') {
         $html=[IO.File]::ReadAllText($source.FullName)
